@@ -1,9 +1,13 @@
 import React from "react";
+import { useSnapshot } from "valtio";
+
+import store from '../store'
 
 import WeatherResult from "./WeatherResult";
 
 export default () => {
-  const cities = [];
+  const snapshot = useSnapshot(store)
+
   return (
     <div className="cities">
       Cities
@@ -14,7 +18,7 @@ export default () => {
           gridColumnGap: "1rem"
         }}
       >
-        {cities.map(city => (
+        {snapshot.cityWeather.map(city => (
           <WeatherResult
             name={city.name}
             key={city.name}
@@ -22,7 +26,7 @@ export default () => {
           />
         ))}
       </div>
-      <div>Average: 0</div>
+      <div>Average: {snapshot.getAverageTemperature() || 0} </div>
     </div>
   );
 };
